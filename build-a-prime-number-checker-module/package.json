@@ -1,0 +1,1 @@
+{"name":"prime-checker","version":"1.0.0","description":"Safe, efficient primality checker for Node.js","keywords":["math","prime","number-theory"],"license":"MIT","author":"Aleksandr Gaifi","type":"commonjs","scripts":{"test":"node --test"}}
