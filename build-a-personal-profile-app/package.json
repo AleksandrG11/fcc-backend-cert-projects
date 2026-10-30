@@ -1,0 +1,1 @@
+{"name":"personal-profile-app","version":"1.0.0","private":true,"description":"freeCodeCamp REST profile project","type":"commonjs","scripts":{"start":"node index.js","test":"node --test"},"dependencies":{"express":"^4.21.2"}}

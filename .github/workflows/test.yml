@@ -1,0 +1,30 @@
+name: Certification projects
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - build-a-prime-number-checker-module
+          - build-a-personal-profile-app
+          - build-a-timestamp-microservice
+          - build-a-chat-app
+          - build-a-family-movie-watchlist-api
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: ${{ matrix.project }}/package-lock.json
+      - name: Install dependencies
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Test project
+        run: npm test

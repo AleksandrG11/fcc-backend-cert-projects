@@ -1,0 +1,25 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const WebSocket=require('ws');
+const {server,wss}=require('./server.js');
+const once=require('node:events').once;
+test('HTTP, WebSocket join/chat/leave',async t=>{
+ await new Promise(r=>server.listen(0,r));
+ t.after(async()=>{for(const c of wss.clients)c.terminate();await new Promise(r=>wss.close(r)); await new Promise(r=>server.close(r));});
+ const root='http://127.0.0.1:'+server.address().port;
+ const doc=await fetch(root); assert.equal(doc.status,200);assert.match(doc.headers.get('content-type'),/text\/html/);
+ const a=new WebSocket(root.replace('http','ws')+'/?username=Alice');
+ const msgA=[];a.on('message',d=>msgA.push(JSON.parse(d)));
+ await once(a,'open');await new Promise(r=>setTimeout(r,40));
+ assert.deepEqual(msgA[0],{type:'system',text:'Alice joined'});
+ const b=new WebSocket(root.replace('http','ws')+'/?username=Bob');
+ const msgB=[];b.on('message',d=>msgB.push(JSON.parse(d)));
+ await once(b,'open');await new Promise(r=>setTimeout(r,40));
+ a.send(JSON.stringify({username:'Alice',text:'hello'}));
+ await new Promise(r=>setTimeout(r,40));
+ assert.ok(msgA.some(m=>m.type==='chat'&&m.text==='hello'));
+ assert.ok(msgB.some(m=>m.type==='chat'&&m.text==='hello'));
+ b.close();await once(b,'close');await new Promise(r=>setTimeout(r,50));
+ assert.ok(msgA.some(m=>m.type==='system'&&m.text==='Bob left'));
+ a.close();await once(a,'close');
+});

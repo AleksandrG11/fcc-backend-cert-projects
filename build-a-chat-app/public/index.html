@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Camper Chat</title></head>
+<body><main><h1>Camper Chat</h1><ol id="messages" aria-live="polite"></ol><form id="chat"><label>Message <input id="message" required maxlength="500"></label><button>Send</button></form></main>
+<script>
+const name=new URLSearchParams(location.search).get('username')||'Camper';
+const ws=new WebSocket((location.protocol==='https:'?'wss':'ws')+'://'+location.host+'/?username='+encodeURIComponent(name));
+ws.addEventListener('message',e=>{let d=JSON.parse(e.data);let li=document.createElement('li');li.textContent=d.type==='chat'?d.username+': '+d.text:d.text;document.getElementById('messages').append(li);});
+document.getElementById('chat').addEventListener('submit',e=>{e.preventDefault();let box=document.getElementById('message');if(ws.readyState===1)ws.send(JSON.stringify({username:name,text:box.value}));box.value='';});
+</script></body></html>

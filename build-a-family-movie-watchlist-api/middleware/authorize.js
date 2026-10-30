@@ -1,0 +1,12 @@
+export function authorizeModification(req, res, next) {
+  if (req.user?.role === 'parent') return next();
+  if (req.user?.role === 'child' &&
+      String(req.user.id) === String(req.params.userId)) return next();
+  return res.status(403).json({ error: 'Access denied' });
+}
+
+export function authorizeRead(req, res, next) {
+  if (req.user?.role === 'parent') return next();
+  if (req.user?.role === 'child' && String(req.user.id) === String(req.params.userId)) return next();
+  return res.status(403).json({ error: 'Access denied' });
+}
