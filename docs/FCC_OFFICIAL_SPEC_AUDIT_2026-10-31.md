@@ -16,3 +16,6 @@ These are educational project implementations and **not** a freeCodeCamp-issued 
 
 ## Verification gate
 Run npm ci --ignore-scripts --no-audit --no-fund and npm test in each of five project folders, plus public GitHub Actions CI. Local tests are evidence of technical work only.
+
+## Mandatory academic honesty restriction (confirmed from issuer)
+The official freeCodeCamp Academic Honesty Policy explicitly prohibits using AI to generate certification project solutions unless the lesson says it is allowed: https://www.freecodecamp.org/news/academic-honesty-policy/ . This portfolio and its fixes are **AI-assisted practice**, not a student-authored submission. Never copy these solutions into the platform and claim the work is wholly student-authored. A learner who wants this issuer's credential must independently implement their own solutions and take the closed-book exam without external help.
