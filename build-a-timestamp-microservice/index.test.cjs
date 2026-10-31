@@ -7,6 +7,8 @@ test('date parsing and validation', async t=>{
  const fixtures=[
   ['1451001600000',{unix:1451001600000,utc:'Fri, 25 Dec 2015 00:00:00 GMT'}],
   ['2015-12-25',{unix:1451001600000,utc:'Fri, 25 Dec 2015 00:00:00 GMT'}],
+  ['2016-12-25',{unix:1482624000000,utc:'Sun, 25 Dec 2016 00:00:00 GMT'}],
+  ['05%20October%202011',{unix:1317772800000,utc:'Wed, 05 Oct 2011 00:00:00 GMT'}],
   ['invalid',{error:'Invalid Date'}],
  ];
  for(const [input,expected] of fixtures){
