@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Prime Explorer: an open-source prime-number checker, continuously tested and deployed.">
+  <meta name="theme-color" content="#142237">
+  <title>Prime Explorer · Tested Number Theory</title>
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./prime-core.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <main class="panel">
+    <div class="eyebrow">OPEN SOURCE · CI/CD PRACTICE</div>
+    <h1>Prime Explorer</h1>
+    <p class="lead">Check whether a whole number is prime. The same algorithm runs in this browser and in the tested Node.js module.</p>
+    <form id="prime-form">
+      <label for="candidate">Whole number (0 to 1,000,000,000,000)</label>
+      <div class="controls">
+        <input id="candidate" name="candidate" type="number" inputmode="numeric" min="0" max="1000000000000" step="1" value="97" required>
+        <button type="submit">Check number</button>
+      </div>
+    </form>
+    <p id="result" class="result" role="status" aria-live="polite">Enter a number and select “Check number”.</p>
+    <section aria-labelledby="method">
+      <h2 id="method">How it works</h2>
+      <p>We reject values below 2, handle even numbers immediately, then test odd divisors only up to the square root. Large inputs are capped to keep the page responsive.</p>
+    </section>
+    <footer><span>Free and open-source educational project.</span> <a href="https://github.com/AleksandrG11/fcc-backend-cert-projects">Source and automated tests</a></footer>
+  </main>
+</body>
+</html>

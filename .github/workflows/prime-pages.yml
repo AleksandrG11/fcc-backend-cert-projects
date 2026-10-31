@@ -1,0 +1,64 @@
+name: Prime Explorer CI/CD
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'build-a-prime-number-checker-module/**'
+      - 'docs/prime-explorer/**'
+      - 'scripts/build-prime-pages.cjs'
+      - 'scripts/smoke-prime-pages.cjs'
+      - '.github/workflows/prime-pages.yml'
+  pull_request:
+    paths:
+      - 'build-a-prime-number-checker-module/**'
+      - 'docs/prime-explorer/**'
+      - 'scripts/build-prime-pages.cjs'
+      - 'scripts/smoke-prime-pages.cjs'
+      - '.github/workflows/prime-pages.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: prime-pages-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  quality:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: build-a-prime-number-checker-module/package-lock.json
+      - name: Install deterministic dependencies
+        working-directory: build-a-prime-number-checker-module
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Unit tests
+        working-directory: build-a-prime-number-checker-module
+        run: npm test
+      - name: Build own-app deployment
+        run: node scripts/build-prime-pages.cjs
+      - name: Install headless Chromium
+        working-directory: build-a-prime-number-checker-module
+        run: npx playwright install --with-deps chromium
+      - name: End-to-end browser smoke
+        run: node scripts/smoke-prime-pages.cjs
+      - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request'
+        with:
+          path: site-dist
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: quality
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
