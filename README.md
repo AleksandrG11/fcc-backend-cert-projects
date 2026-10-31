@@ -6,6 +6,8 @@
 
 **Credential status:** These are public source-code projects, **not an issued freeCodeCamp certification**. The provider has not accepted the five projects or awarded a final certificate on this basis.
 
+**Academic-integrity / provenance notice:** These are AI-assisted engineering practice projects, including AI-assisted debugging and contract tests. They **must not be submitted as independently student-authored freeCodeCamp certification projects**. The official freeCodeCamp [Academic Honesty Policy](https://www.freecodecamp.org/news/academic-honesty-policy/) forbids AI-generated project solutions unless a lesson explicitly permits them. To earn the provider's certification, the learner must independently write eligible project code in the official course environment and independently sit the closed-book exam. Passing this repository's CI does not satisfy either requirement.
+
 ## Projects and source
 
 | Project | What it demonstrates | Entry point |
